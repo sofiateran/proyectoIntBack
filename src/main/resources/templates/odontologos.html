@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+LISTA DE ODONTOLOGOS EN TU H2:
+<th:block th:each="odontologo : ${odontologos}">
+    <br>
+    <tr>
+        <td th:text="${odontologo.getNombre()}">...</td>
+        <td th:text="${odontologo.getApellido()}">...</td>
+    </tr>
+</th:block>
+</body>
+</html>
