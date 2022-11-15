@@ -1,17 +1,6 @@
 package com.example.TeranSofiaIntegrador.Entidades;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.Setter;
+import java.sql.Date;
 
-import java.time.LocalDate;
-import java.sql.*;
-@Getter
-@Setter
-@AllArgsConstructor
-public class Paciente {
-    private int id;
-    private String nombre, apellido, domicilio, dni;
-    private Date fechaAlta;
-
+public record Paciente(int id, String nombre, String apellido, String domicilio, String dni, Date fechaAlta) {
 }
