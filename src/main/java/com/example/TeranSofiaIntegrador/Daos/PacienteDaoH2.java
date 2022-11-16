@@ -5,6 +5,7 @@ import com.example.TeranSofiaIntegrador.Entidades.Paciente;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.springframework.stereotype.Repository;
 
 import java.sql.Connection;
 import java.sql.*;
@@ -12,19 +13,19 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-
+import java.util.Optional;
+import static com.example.TeranSofiaIntegrador.Daos.H2Manager.getConnection;
 
 import static java.sql.DriverManager.getConnection;
-
+@Repository
 public class PacienteDaoH2 implements IDao<Paciente>{
 
     private static final Logger logger =  LogManager.getLogger(PacienteDaoH2.class);
-    private static  final String DB_URL = "jdbc:h2:~/proyectoIntegrador;INIT=RUNSCRIPT FROM 'create.sql'";
     private static final String INSERT = "INSERT INTO PACIENTES (ID, NOMBRE, APELLIDO, DOMICILIO , DNI, FECHAALTA) VALUES (?,?,?,?,?,?);";
     private static final String UPDATE = "UPDATE PACIENTES SET NOMBRE = ?, APELLIDO = ?, DOMICILIO = ?, DNI = ?, FECHAALTA = ? WHERE ID = ?;";
 
     private static final String SELECT_ALL = "SELECT * FROM PACIENTES;";
-
+    private static final String SELECT_BY_ID = "SELECT FROM ODONTOLOGOS WHERE ID = ?; ";
     private static final String DELETE = "DELETE FROM PACIENTES WHERE ID = ?;";
 
     @Override
@@ -73,12 +74,12 @@ public class PacienteDaoH2 implements IDao<Paciente>{
         try {
             Connection connection =  connection = getConnection();
             var psUpdate = connection.prepareStatement(UPDATE);
-            psUpdate.setInt(1,paciente.getId());
-            psUpdate.setString(2, paciente.getNombre());
-            psUpdate.setString(3, paciente.getApellido());
-            psUpdate.setString(4, paciente.getDomicilio());
-            psUpdate.setString(5, paciente.getDni());
-            psUpdate.setDate(6, paciente.getFechaAlta());
+            psUpdate.setString(1, paciente.getNombre());
+            psUpdate.setString(2, paciente.getApellido());
+            psUpdate.setString(3, paciente.getDomicilio());
+            psUpdate.setString(4, paciente.getDni());
+            psUpdate.setDate(5, paciente.getFechaAlta());
+            psUpdate.setInt(6,paciente.getId());
 
             psUpdate.execute();
             logger.info("Se modifico correctamente!");
@@ -107,9 +108,21 @@ public class PacienteDaoH2 implements IDao<Paciente>{
             }
     }
 
+    public Optional<Paciente> getById(int id){
+        try {
+            var connection = getConnection();
+            var statement = connection.prepareStatement(SELECT_BY_ID);
+            statement.setInt(1,id);
+            var resultSet = statement.executeQuery();
+            while (resultSet.next()) {
+                logger.info("id: " + resultSet.getInt(1) + " nombre: " + resultSet.getString(2) + " apellido: " + resultSet.getString(3) + " domicilio: " + resultSet.getString(4) + " dni: " + resultSet.getString(5) + " fecha de alta: " + resultSet.getDate(6));
+                Optional.of(new Paciente(resultSet.getInt(1), resultSet.getString(2), resultSet.getString(3), resultSet.getString(4), resultSet.getString(5), resultSet.getDate(6)));
+            }
 
-
-    private static Connection getConnection() throws SQLException {
-        return DriverManager.getConnection(DB_URL);
+        } catch (SQLException e) {
+            logger.info("no hay odontologos en la lista");
+        }
+        return Optional.empty();
     }
+
 }

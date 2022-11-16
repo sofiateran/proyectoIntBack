@@ -10,6 +10,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 public class OdontologoController {
@@ -35,6 +36,11 @@ public class OdontologoController {
     @DeleteMapping("/eliminar")
     public void eliminarOdontologos(@RequestBody int matricula){
         odontologoService.eliminar(matricula);
+    }
+
+    @GetMapping("/odontologo/{matricula}")
+    public Optional<Odontologo> getByMatricula (@PathVariable int matricula){
+        return odontologoService.getByMatricula(matricula);
     }
 
 }

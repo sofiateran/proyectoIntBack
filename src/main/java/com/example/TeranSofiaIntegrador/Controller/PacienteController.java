@@ -1,18 +1,13 @@
 package com.example.TeranSofiaIntegrador.Controller;
 
-import com.example.TeranSofiaIntegrador.Daos.OdontologoDaoH2;
 import com.example.TeranSofiaIntegrador.Daos.PacienteDaoH2;
-import com.example.TeranSofiaIntegrador.Entidades.Odontologo;
 import com.example.TeranSofiaIntegrador.Entidades.Paciente;
-import com.example.TeranSofiaIntegrador.Servicios.OdontologoService;
 import com.example.TeranSofiaIntegrador.Servicios.PacienteService;
 import org.springframework.http.HttpStatus;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import java.sql.SQLException;
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 public class PacienteController {
@@ -35,5 +30,10 @@ public class PacienteController {
     @DeleteMapping("/eliminarPaciente")
     public void eliminar(@RequestBody int id)  {
         pacienteService.eliminar(id);
+    }
+
+    @GetMapping("/paciente/{id}")
+    public Optional<Paciente> getById (@PathVariable int id){
+        return pacienteService.getById(id);
     }
 }
