@@ -1,40 +1,40 @@
 package com.example.TeranSofiaIntegrador.Controller;
 
+import com.example.TeranSofiaIntegrador.Daos.OdontologoDaoH2;
 import com.example.TeranSofiaIntegrador.Entidades.Odontologo;
+import com.example.TeranSofiaIntegrador.Entidades.Paciente;
 import com.example.TeranSofiaIntegrador.Servicios.OdontologoService;
-import lombok.AllArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 
 @RestController
-@AllArgsConstructor
 public class OdontologoController {
-    private final OdontologoService service;
-
+    OdontologoService odontologoService = new OdontologoService(new OdontologoDaoH2());
     @GetMapping("/odontologos")
-    public List<Odontologo> listar() {
-        return service.listar();
+    public List<Odontologo> listarOdontologos(){
+        return  odontologoService.listar();
     }
 
     @PostMapping("/nuevosOdontologos")
-    public void agregar(@RequestBody Odontologo paciente) {
-        if (paciente != null) service.agregar(paciente);
+    @ResponseStatus(HttpStatus.CREATED)
+    public void agregarOdontologo(@RequestBody Odontologo odontologo) {
+        if (odontologo != null)
+        odontologoService.agregar(odontologo);
     }
 
     @PutMapping("/modificarOdontologos")
-    public void modificar(@RequestBody Odontologo paciente) {
-        service.modificar(paciente);
+    @ResponseStatus(HttpStatus.CREATED)
+    public void modificarOdontologos(@RequestBody Odontologo odontologo) {
+        odontologoService.modificar(odontologo);
     }
 
-    @DeleteMapping("/eliminarOdontologo")
-    public void eliminar(@RequestBody int id) {
-        service.eliminar(id);
+    @DeleteMapping("/eliminar")
+    public void eliminarOdontologos(@RequestBody int matricula){
+        odontologoService.eliminar(matricula);
     }
 
-    @GetMapping("/odontologos/{id}")
-    public Optional<Odontologo> getByMatricula(@PathVariable int id) {
-        return service.getByMatricula(id);
-    }
 }

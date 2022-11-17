@@ -14,6 +14,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.sql.Date;
 import java.sql.SQLException;
 
 @SpringBootApplication
@@ -21,34 +22,7 @@ public class TeranSofiaIntegradorApplication {
 	private final static String log4jConfigFile = System.getProperty("user.dir") + File.separator + "src" + File.separator + "main" + File.separator + "resources" + File.separator + "log4j2.xml";
 	public static void main(String[] args) throws IOException, SQLException {
 		SpringApplication.run(TeranSofiaIntegradorApplication.class, args);
-
 		startLogger();
-		var serviceOdontologo = new OdontologoService(new OdontologoDaoH2());
-		var servicePaciente = new PacienteService(new PacienteDaoH2());
-
-		var odontologo1 = new Odontologo(1323, "Sofia","Teran");
-		var odontologo2 = new Odontologo(132553, "Juan","Gonzales");
-		var odontologo3 = new Odontologo(1666, "Horacion","GarciaMarquez");
-
-
-//        var paciente1 = new Paciente(1,"luciana","jojo","dumas33","45098654","20-09-08");
-//        var paciente2 = new Paciente(2,"marcos","jojo","tukitiki","45092345","2020-10-10");
-
-//        serviceOdontologo.eliminar(1323);
-//
-//        serviceOdontologo.agregar(odontologo1);
-//        serviceOdontologo.agregar(odontologo2);
-//        serviceOdontologo.agregar(odontologo3);
-//			servicePaciente.eliminar(100);
-//
-//        odontologo3.setApellido("Garcia");
-//        serviceOdontologo.modificar(odontologo3);
-//		servicePaciente.agregar(paciente1);
-//		servicePaciente.agregar(paciente2);
-//		serviceOdontologo.eliminar(0);
-//		serviceOdontologo.listar();
-
-//		servicePaciente.listar();
 
 
 
