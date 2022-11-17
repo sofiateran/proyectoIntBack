@@ -2,9 +2,11 @@ package com.example.TeranSofiaIntegrador.Daos;
 
 import com.example.TeranSofiaIntegrador.Entidades.Odontologo;
 
+import com.example.TeranSofiaIntegrador.Entidades.Paciente;
 import lombok.Setter;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.springframework.stereotype.Repository;
 
 
 import java.sql.Connection;
@@ -12,17 +14,18 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-@Setter
-
+import java.util.Optional;
+import static com.example.TeranSofiaIntegrador.Daos.H2Manager.getConnection;
+@Repository
 public class OdontologoDaoH2 implements IDao<Odontologo>{
 
     private static final Logger logger =  LogManager.getLogger(OdontologoDaoH2.class);
-    private static  final String DB_URL = "jdbc:h2:~/proyectoIntegrador;INIT=RUNSCRIPT FROM 'create.sql'";
+
     private static final String INSERT = "INSERT INTO ODONTOLOGOS (MATRICULA, NOMBRE, APELLIDO) VALUES (?,?,?);";
     private static final String UPDATE = "UPDATE ODONTOLOGOS SET NOMBRE = ?, APELLIDO = ?  WHERE MATRICULA = ?;";
 
     private static final String SELECT_ALL = "SELECT * FROM ODONTOLOGOS;";
-
+    private static final String SELECT_BY_ID = "SELECT FROM ODONTOLOGOS WHERE matricula = ?; ";
     private static final String DELETE = "DELETE FROM ODONTOLOGOS WHERE MATRICULA = ?;";
 
     @Override
@@ -104,7 +107,26 @@ public class OdontologoDaoH2 implements IDao<Odontologo>{
 
     }
 
-    private static Connection getConnection() throws SQLException {
-        return DriverManager.getConnection(DB_URL);
+    @Override
+    public Optional<Odontologo> getById(int id) {
+        try {
+            var connection = H2Manager.getConnection();
+            var statement = connection.prepareStatement(SELECT_BY_ID);
+            statement.setInt(1,id);
+            var resultSet = statement.executeQuery();
+            while (resultSet.next()) {
+                logger.info(" matricula: " + resultSet.getInt(1) + " nombre: " + resultSet.getString(2) + " apellido " + resultSet.getString(3));
+                Optional.of(new Odontologo(resultSet.getInt(1), resultSet.getString(2), resultSet.getString(3)));
+            }
+
+        } catch (SQLException e) {
+            logger.info("no hay odontologos en la lista");
+        }
+        return Optional.empty();
+
     }
-}
+    
+    }
+
+
+

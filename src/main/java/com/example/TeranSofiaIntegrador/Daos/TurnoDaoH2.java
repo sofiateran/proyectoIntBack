@@ -1,7 +1,5 @@
 package com.example.TeranSofiaIntegrador.Daos;
 
-import com.example.TeranSofiaIntegrador.Entidades.Odontologo;
-import com.example.TeranSofiaIntegrador.Entidades.Paciente;
 import com.example.TeranSofiaIntegrador.Entidades.Turno;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -12,7 +10,6 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-
 import static com.example.TeranSofiaIntegrador.Daos.H2Manager.getConnection;
 
 @Repository
@@ -25,6 +22,7 @@ public class TurnoDaoH2 implements IDao<Turno>{
     private static final String SELECT_ALL = "SELECT * FROM TURNOS;";
     private static final String SELECT_BY_ID = "SELECT FROM TURNOS WHERE id = ?; ";
     private static final String DELETE = "DELETE FROM TURNOS WHERE id = ?;";
+
     @Override
     public List<Turno> listar() {
         List<Turno> turnos = null;

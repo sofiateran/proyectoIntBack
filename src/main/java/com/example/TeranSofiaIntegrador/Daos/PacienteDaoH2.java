@@ -3,6 +3,7 @@ package com.example.TeranSofiaIntegrador.Daos;
 import com.example.TeranSofiaIntegrador.Entidades.Odontologo;
 import com.example.TeranSofiaIntegrador.Entidades.Paciente;
 
+import com.example.TeranSofiaIntegrador.Entidades.Turno;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -12,19 +13,20 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
+import static com.example.TeranSofiaIntegrador.Daos.H2Manager.getConnection;
 
 
-import static java.sql.DriverManager.getConnection;
 
 public class PacienteDaoH2 implements IDao<Paciente>{
 
     private static final Logger logger =  LogManager.getLogger(PacienteDaoH2.class);
-    private static  final String DB_URL = "jdbc:h2:~/proyectoIntegrador;INIT=RUNSCRIPT FROM 'create.sql'";
+
     private static final String INSERT = "INSERT INTO PACIENTES (ID, NOMBRE, APELLIDO, DOMICILIO , DNI, FECHAALTA) VALUES (?,?,?,?,?,?);";
     private static final String UPDATE = "UPDATE PACIENTES SET NOMBRE = ?, APELLIDO = ?, DOMICILIO = ?, DNI = ?, FECHAALTA = ? WHERE ID = ?;";
 
     private static final String SELECT_ALL = "SELECT * FROM PACIENTES;";
-
+    private static final String SELECT_BY_ID = "SELECT FROM PACIENTE WHERE id = ?; ";
     private static final String DELETE = "DELETE FROM PACIENTES WHERE ID = ?;";
 
     @Override
@@ -107,9 +109,25 @@ public class PacienteDaoH2 implements IDao<Paciente>{
             }
     }
 
+    @Override
+    public Optional<Paciente> getById(int id) {
+        try {
+            var connection = H2Manager.getConnection();
+            var statement = connection.prepareStatement(SELECT_BY_ID);
+            statement.setInt(1,id);
+            var resultSet = statement.executeQuery();
+            while (resultSet.next()) {
+                logger.info("id: " + resultSet.getInt(1) + " nombre: " + resultSet.getString(2) + " apellido: " + resultSet.getString(3) + " domicilio: " + resultSet.getString(4) + " dni: " + resultSet.getString(5) + " fecha de alta: " + resultSet.getDate(6));
+                Optional.of(new Paciente(resultSet.getInt(1), resultSet.getString(2), resultSet.getString(3), resultSet.getString(4), resultSet.getString(5), resultSet.getDate(6)));
+            }
 
+        } catch (SQLException e) {
+            logger.info("no hay odontologos en la lista");
+        }
+        return Optional.empty();
 
-    private static Connection getConnection() throws SQLException {
-        return DriverManager.getConnection(DB_URL);
     }
-}
+
+    }
+
+

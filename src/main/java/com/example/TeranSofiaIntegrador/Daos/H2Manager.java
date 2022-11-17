@@ -1,9 +1,6 @@
 package com.example.TeranSofiaIntegrador.Daos;
 
-<<<<<<< HEAD
-=======
 
->>>>>>> origin/main
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 
