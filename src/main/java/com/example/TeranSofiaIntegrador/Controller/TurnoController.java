@@ -4,40 +4,34 @@ import com.example.TeranSofiaIntegrador.Daos.TurnoDaoH2;
 import com.example.TeranSofiaIntegrador.Entidades.Odontologo;
 import com.example.TeranSofiaIntegrador.Entidades.Turno;
 import com.example.TeranSofiaIntegrador.Servicios.TurnoService;
+import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Optional;
 
+@RestController
+@AllArgsConstructor
 public class TurnoController {
-    TurnoService turnoService = new TurnoService(new TurnoDaoH2());
+    private final TurnoService service;
 
     @GetMapping("/turnos")
-    public List<Turno> listarOdontologos(){
-        return  turnoService.listar();
+    public List<Turno> listar() {
+        return service.listar();
     }
 
-    @PostMapping("/nuevosTurnos")
-    @ResponseStatus(HttpStatus.CREATED)
-    public void agregarOdontologo(@RequestBody Turno turno) {
-        if (turno != null)
-            turnoService.agregar(turno);
-    }
-    @PutMapping("/modificarTurnos")
-    @ResponseStatus(HttpStatus.CREATED)
-    public void modificarOdontologos(@RequestBody Turno turno) {
-        turnoService.modificar(turno);
-    }
-
-    @DeleteMapping("/eliminar")
-    public void eliminarOdontologos(@RequestBody int matricula){
-        turnoService.eliminar(matricula);
-    }
-
-    @GetMapping("/turnos/{id}")
-    public Optional<Turno> getById (@PathVariable int id){
-        return turnoService.getById(id);
-
+    @PostMapping("/turnos")
+    public ResponseEntity<?> listar(@RequestBody Turno turnoRequest) {
+        try {
+            return ResponseEntity.of(Optional.of(service.agregar(turnoRequest.getId(),
+                    turnoRequest.getId_paciente(),
+                    turnoRequest.getMatricula_odontologo(),
+                    turnoRequest.getFecha())));
+        } catch (OdontologoNotFound | PacienteNotFound e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
     }
 }
+
