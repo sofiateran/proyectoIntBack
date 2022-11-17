@@ -1,17 +1,22 @@
 package com.example.TeranSofiaIntegrador.Controller;
 
-import com.example.TeranSofiaIntegrador.Daos.TurnoDaoH2;
-import com.example.TeranSofiaIntegrador.Entidades.Odontologo;
 import com.example.TeranSofiaIntegrador.Entidades.Turno;
+import com.example.TeranSofiaIntegrador.Servicios.OdontologoNotFound;
+import com.example.TeranSofiaIntegrador.Servicios.PacienteNotFound;
 import com.example.TeranSofiaIntegrador.Servicios.TurnoService;
+import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Optional;
-
+@RestController
+@AllArgsConstructor
 public class TurnoController {
-    TurnoService turnoService = new TurnoService(new TurnoDaoH2());
+
+    private final TurnoService turnoService;
+
 
     @GetMapping("/turnos")
     public List<Turno> listarOdontologos(){
@@ -19,19 +24,25 @@ public class TurnoController {
     }
 
     @PostMapping("/nuevosTurnos")
-    @ResponseStatus(HttpStatus.CREATED)
-    public void agregarOdontologo(@RequestBody Turno turno) {
-        if (turno != null)
-            turnoService.agregar(turno);
+    public ResponseEntity<?> agregar(@RequestBody Turno turnoRequest) {
+        try {
+            return ResponseEntity.of(Optional.of(turnoService.agregar(
+                    turnoRequest.getId(),
+                    turnoRequest.getMatricula_odontologo(),
+                    turnoRequest.getId_paciente(),
+                    turnoRequest.getFecha())));
+        } catch (OdontologoNotFound | PacienteNotFound e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
     }
     @PutMapping("/modificarTurnos")
     @ResponseStatus(HttpStatus.CREATED)
-    public void modificarOdontologos(@RequestBody Turno turno) {
+    public void modificarTurnos(@RequestBody Turno turno) {
         turnoService.modificar(turno);
     }
 
-    @DeleteMapping("/eliminar")
-    public void eliminarOdontologos(@RequestBody int matricula){
+    @DeleteMapping("/eliminarTurnos")
+    public void eliminarTurnos(@RequestBody int matricula){
         turnoService.eliminar(matricula);
     }
 

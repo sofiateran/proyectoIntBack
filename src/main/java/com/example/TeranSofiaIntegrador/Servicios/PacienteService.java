@@ -7,11 +7,13 @@ import com.example.TeranSofiaIntegrador.Entidades.Paciente;
 import lombok.AllArgsConstructor;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.springframework.stereotype.Service;
 
-import java.sql.SQLException;
 import java.util.List;
+import java.util.Optional;
 
 @AllArgsConstructor
+@Service
 public class PacienteService {
 
     private final static Logger logger = LogManager.getLogger(OdontologoDaoH2.class);
@@ -32,6 +34,9 @@ public class PacienteService {
 
     public void eliminar(int id)  {
         pacienteDaoH2.eliminar(id);
+    }
+    public Optional<Paciente> getById (int id){
+        return pacienteDaoH2.getById(id);
     }
 
 }

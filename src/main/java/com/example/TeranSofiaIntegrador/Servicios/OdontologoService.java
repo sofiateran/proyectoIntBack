@@ -5,9 +5,13 @@ import com.example.TeranSofiaIntegrador.Entidades.Odontologo;
 import lombok.AllArgsConstructor;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
+
 @AllArgsConstructor
+@Service
 public class OdontologoService {
     private final static Logger logger = LogManager.getLogger(OdontologoDaoH2.class);
 
@@ -27,6 +31,10 @@ public class OdontologoService {
 
     public void eliminar(int matricula)  {
         odontologoDaoH2.eliminar(matricula);
+    }
+
+    public Optional<Odontologo> getById (int id){
+        return odontologoDaoH2.getById(id);
     }
 
 }

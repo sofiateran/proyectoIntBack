@@ -25,25 +25,25 @@ public class OdontologoDaoH2 implements IDao<Odontologo>{
     private static final String UPDATE = "UPDATE ODONTOLOGOS SET NOMBRE = ?, APELLIDO = ?  WHERE MATRICULA = ?;";
 
     private static final String SELECT_ALL = "SELECT * FROM ODONTOLOGOS;";
-    private static final String SELECT_BY_ID = "SELECT FROM ODONTOLOGOS WHERE matricula = ?; ";
+    private static final String SELECT_BY_ID = "SELECT * FROM ODONTOLOGOS WHERE matricula = ?; ";
     private static final String DELETE = "DELETE FROM ODONTOLOGOS WHERE MATRICULA = ?;";
 
     @Override
     public List<Odontologo> listar() {
-        List<Odontologo> odontologos = null;
+        List<Odontologo> odontologos = new ArrayList<>();
         try {
             Connection connection = getConnection();
             var statement = connection.createStatement();
-            odontologos = new ArrayList<>();
             var resultSet = statement.executeQuery(SELECT_ALL);
             while (resultSet.next()) {
                 logger.info(" matricula: " + resultSet.getInt(1) + " nombre: " + resultSet.getString(2) + " apellido " + resultSet.getString(3));
                 odontologos.add(new Odontologo(resultSet.getInt(1), resultSet.getString(2), resultSet.getString(3)));
             }
-        } catch (SQLException e) {
             if (odontologos.size() == 0) {
                 logger.info("no hay odontologos en la lista");
             }
+        } catch (SQLException e) {
+            logger.error(e.getMessage());
         }
 
 
@@ -71,7 +71,7 @@ public class OdontologoDaoH2 implements IDao<Odontologo>{
     @Override
     public void modificar(Odontologo odontologo){
         try {
-            Connection connection =  connection = getConnection();
+            var connection =  getConnection();
             var psUpdate = connection.prepareStatement(UPDATE);
             psUpdate.setString(1,odontologo.getNombre());
             psUpdate.setString(2,odontologo.getApellido());
@@ -114,18 +114,18 @@ public class OdontologoDaoH2 implements IDao<Odontologo>{
             var statement = connection.prepareStatement(SELECT_BY_ID);
             statement.setInt(1,id);
             var resultSet = statement.executeQuery();
-            while (resultSet.next()) {
+            if (resultSet.next()) {
                 logger.info(" matricula: " + resultSet.getInt(1) + " nombre: " + resultSet.getString(2) + " apellido " + resultSet.getString(3));
-                Optional.of(new Odontologo(resultSet.getInt(1), resultSet.getString(2), resultSet.getString(3)));
+              return Optional.of(new Odontologo(resultSet.getInt(1), resultSet.getString(2), resultSet.getString(3)));
             }
 
         } catch (SQLException e) {
-            logger.info("no hay odontologos en la lista");
+            logger.error(e.getMessage());
         }
         return Optional.empty();
 
     }
-    
+
     }
 
 

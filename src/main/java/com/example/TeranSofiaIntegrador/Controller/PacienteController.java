@@ -15,6 +15,7 @@ import java.sql.SQLException;
 import java.util.List;
 
 @RestController
+@CrossOrigin
 public class PacienteController {
     PacienteService pacienteService = new PacienteService(new PacienteDaoH2());
     @GetMapping("/pacientes")

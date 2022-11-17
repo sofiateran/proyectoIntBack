@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
+@CrossOrigin
 public class OdontologoController {
     OdontologoService odontologoService = new OdontologoService(new OdontologoDaoH2());
     @GetMapping("/odontologos")
