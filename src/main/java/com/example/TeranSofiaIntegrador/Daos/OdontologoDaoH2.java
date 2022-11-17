@@ -29,23 +29,21 @@ public class OdontologoDaoH2 implements IDao<Odontologo>{
 
     @Override
     public List<Odontologo> listar() {
-        List<Odontologo> odontologos = null;
+        var odontologos = new ArrayList<Odontologo>();
         try {
             Connection connection = getConnection();
             var statement = connection.createStatement();
-            odontologos = new ArrayList<>();
             var resultSet = statement.executeQuery(SELECT_ALL);
             while (resultSet.next()) {
                 logger.info(" matricula: " + resultSet.getInt(1) + " nombre: " + resultSet.getString(2) + " apellido " + resultSet.getString(3));
                 odontologos.add(new Odontologo(resultSet.getInt(1), resultSet.getString(2), resultSet.getString(3)));
             }
-        } catch (SQLException e) {
             if (odontologos.size() == 0) {
-                logger.info("no hay odontologos en la lista");
+               logger.info("no hay odontologos");
             }
+        } catch (SQLException e) {
+            logger.error(e.getMessage());
         }
-
-
         return odontologos;
     }
 
