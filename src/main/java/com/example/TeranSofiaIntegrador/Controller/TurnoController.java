@@ -1,8 +1,8 @@
 package com.example.TeranSofiaIntegrador.Controller;
 
 import com.example.TeranSofiaIntegrador.Entidades.Turno;
-import com.example.TeranSofiaIntegrador.Servicios.OdontologoNotFound;
-import com.example.TeranSofiaIntegrador.Servicios.PacienteNotFound;
+import com.example.TeranSofiaIntegrador.Exceptions.OdontologoNotFound;
+import com.example.TeranSofiaIntegrador.Exceptions.PacienteNotFound;
 import com.example.TeranSofiaIntegrador.Servicios.TurnoService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;

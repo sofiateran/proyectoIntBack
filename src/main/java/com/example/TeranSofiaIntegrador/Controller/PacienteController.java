@@ -22,7 +22,6 @@ public class PacienteController {
         return pacienteService.listar();
     }
     @PostMapping("/nuevosPacientes")
-    @ResponseStatus(HttpStatus.CREATED)
     public void agregar(@RequestBody Paciente paciente) {
         if (paciente != null) pacienteService.agregar(paciente);
     }

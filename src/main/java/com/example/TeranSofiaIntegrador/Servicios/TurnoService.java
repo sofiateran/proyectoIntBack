@@ -2,6 +2,8 @@ package com.example.TeranSofiaIntegrador.Servicios;
 
 import com.example.TeranSofiaIntegrador.Daos.TurnoDaoH2;
 import com.example.TeranSofiaIntegrador.Entidades.Turno;
+import com.example.TeranSofiaIntegrador.Exceptions.OdontologoNotFound;
+import com.example.TeranSofiaIntegrador.Exceptions.PacienteNotFound;
 import lombok.AllArgsConstructor;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;

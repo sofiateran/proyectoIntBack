@@ -19,18 +19,18 @@ import java.util.Optional;
 import static com.example.TeranSofiaIntegrador.Daos.H2Manager.getConnection;
 
 @Repository
-public class PacienteDaoH2 implements Dao<Paciente> {
+public class PacienteDaoH2 implements IDao<Paciente> {
     private static final Logger logger = LogManager.getLogger(PacienteDaoH2.class);
 
     private static final String INSERT = "INSERT INTO PACIENTES (ID, NOMBRE, APELLIDO,  DNI, DOMICILIO , FECHAALTA) VALUES (?,?,?,?,?,?);";
-    private static final String UPDATE = "UPDATE PACIENTES SET NOMBRE = ?, APELLIDO = ?, DOMICILIO = ?, DNI = ?, FECHAALTA = ? WHERE ID = ?;";
+    private static final String UPDATE = "UPDATE PACIENTES SET NOMBRE = ?, APELLIDO = ?,  DNI = ?,DOMICILIO = ?, FECHAALTA = ? WHERE ID = ?;";
 
     private static final String SELECT_ALL = "SELECT * FROM PACIENTES;";
     private static final String SELECT_BY_ID = "SELECT * FROM PACIENTES WHERE id = ?; ";
     private static final String DELETE = "DELETE FROM PACIENTES WHERE ID = ?;";
 
     @Override
-    public List<Paciente> getAll() {
+    public List<Paciente> listar() {
         var pacientes = new ArrayList<Paciente>();
         try (var connection = getConnection()) {
             var statement = connection.createStatement();
@@ -48,6 +48,7 @@ public class PacienteDaoH2 implements Dao<Paciente> {
         return pacientes;
     }
 
+
     @Override
     public void agregar(Paciente paciente) {
 
@@ -56,8 +57,8 @@ public class PacienteDaoH2 implements Dao<Paciente> {
             agregar.setInt(1,paciente.getId());
             agregar.setString(2, paciente.getNombre());
             agregar.setString(3, paciente.getApellido());
-            agregar.setString(5, paciente.getDomicilio());
             agregar.setString(4, paciente.getDni());
+            agregar.setString(5, paciente.getDomicilio());
             agregar.setDate(6,  paciente.getFechaAlta());
 
             agregar.execute();
@@ -76,8 +77,8 @@ public class PacienteDaoH2 implements Dao<Paciente> {
 
             psUpdate.setString(1, paciente.getNombre());
             psUpdate.setString(2, paciente.getApellido());
-            psUpdate.setString(4, paciente.getDomicilio());
             psUpdate.setString(3, paciente.getDni());
+            psUpdate.setString(4, paciente.getDomicilio());
             psUpdate.setDate(5, paciente.getFechaAlta());
             psUpdate.setInt(6,paciente.getId());
 

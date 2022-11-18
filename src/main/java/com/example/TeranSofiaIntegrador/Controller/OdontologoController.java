@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@CrossOrigin
+@AllArgsConstructor
 public class OdontologoController {
     private final OdontologoService service;
 
@@ -36,7 +36,7 @@ public class OdontologoController {
     }
 
     @GetMapping("/odontologos/{id}")
-    public Optional<Odontologo> getByMatricula(@PathVariable int id) {
-        return service.getByMatricula(id);
+    public Optional<Odontologo> getByMatricula(@PathVariable int matricula) {
+        return service.getById(matricula);
     }
 }

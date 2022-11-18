@@ -1,9 +1,6 @@
 package com.example.TeranSofiaIntegrador.Daos;
 
 import com.example.TeranSofiaIntegrador.Entidades.Turno;
-import com.example.TeranSofiaIntegrador.Servicios.OdontologoNotFound;
-import com.example.TeranSofiaIntegrador.Servicios.PacienteNotFound;
-import lombok.AllArgsConstructor;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.stereotype.Repository;
