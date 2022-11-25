@@ -1,12 +1,9 @@
 package com.example.TeranSofiaIntegrador.Servicios;
 
 
-import com.example.TeranSofiaIntegrador.Daos.OdontologoDaoH2;
-import com.example.TeranSofiaIntegrador.Daos.PacienteDaoH2;
 import com.example.TeranSofiaIntegrador.Entidades.Paciente;
+import com.example.TeranSofiaIntegrador.Repositories.PacienteRepository;
 import lombok.AllArgsConstructor;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -16,27 +13,25 @@ import java.util.Optional;
 @Service
 public class PacienteService {
 
-    private final static Logger logger = LogManager.getLogger(OdontologoDaoH2.class);
-
-    private final PacienteDaoH2 pacienteDaoH2;
+    private final PacienteRepository repository;
 
     public void agregar(Paciente paciente){
-        pacienteDaoH2.agregar(paciente);
+        repository.save(paciente);
     }
 
     public List<Paciente> listar()  {
-        return pacienteDaoH2.listar();
+        return repository.findAll();
     }
 
     public void modificar(Paciente paciente) {
-        pacienteDaoH2.modificar(paciente);
+        repository.save(paciente);
     }
 
     public void eliminar(int id)  {
-        pacienteDaoH2.eliminar(id);
+        repository.deleteById(id);
     }
     public Optional<Paciente> getById (int id){
-        return pacienteDaoH2.getById(id);
+        return repository.findById(id);
     }
 
 }
