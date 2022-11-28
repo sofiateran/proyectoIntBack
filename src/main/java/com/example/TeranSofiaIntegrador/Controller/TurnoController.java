@@ -1,5 +1,7 @@
 package com.example.TeranSofiaIntegrador.Controller;
 
+import com.example.TeranSofiaIntegrador.Entidades.Odontologo;
+import com.example.TeranSofiaIntegrador.Entidades.Paciente;
 import com.example.TeranSofiaIntegrador.Entidades.Turno;
 import com.example.TeranSofiaIntegrador.Exceptions.OdontologoNotFound;
 import com.example.TeranSofiaIntegrador.Exceptions.PacienteNotFound;
@@ -19,8 +21,8 @@ public class TurnoController {
 
 
     @GetMapping("/turnos")
-    public List<Turno> listarOdontologos(){
-        return  turnoService.listar();
+    public ResponseEntity<List<Turno>> listar() {
+        return ResponseEntity.ok(turnoService.listar());
     }
 
     @PostMapping("/nuevosTurnos")
@@ -36,19 +38,19 @@ public class TurnoController {
         }
     }
     @PutMapping("/modificarTurnos")
-    @ResponseStatus(HttpStatus.CREATED)
-    public void modificarTurnos(@RequestBody Turno turno) {
+    public ResponseEntity<String> modificar(@RequestBody Turno turno) {
         turnoService.modificar(turno);
+        return ResponseEntity.ok("Se modifico el turno");
     }
 
     @DeleteMapping("/eliminarTurnos")
-    public void eliminarTurnos(@RequestBody int matricula){
-        turnoService.eliminar(matricula);
+    public ResponseEntity<String> eliminar(@RequestBody int id) {
+        turnoService.eliminar(id);
+        return ResponseEntity.ok("Se eliminó de la base de datos el turno con id: " + id);
     }
 
     @GetMapping("/turnos/{id}")
-    public Optional<Turno> getById (@PathVariable int id){
-        return turnoService.getById(id);
-
+    public ResponseEntity<Optional<Turno>> getById(@PathVariable int id) {
+        return ResponseEntity.ok(turnoService.getById(id));
     }
 }
