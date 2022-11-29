@@ -6,6 +6,8 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import java.sql.Date;
+import java.util.Set;
+
 @Getter
 @Setter
 @Entity
@@ -16,4 +18,8 @@ public class Paciente {
     private int id;
     private String nombre, apellido, dni, domicilio;
     private Date fechaAlta;
+
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name = "id_turno", referencedColumnName ="id")
+    private Set<Turno> turno;
 }

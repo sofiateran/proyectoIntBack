@@ -13,7 +13,6 @@ import java.util.Optional;
 @RestController
 @AllArgsConstructor
 @CrossOrigin
-
 public class PacienteController {
     private final PacienteService pacienteService;
 

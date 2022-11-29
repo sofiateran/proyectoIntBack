@@ -30,8 +30,8 @@ public class TurnoController {
         try {
             return ResponseEntity.of(Optional.of(turnoService.agregar(
                     turnoRequest.getId(),
-                    turnoRequest.getMatricula_odontologo(),
-                    turnoRequest.getId_paciente(),
+                    turnoRequest.getOdontologo(),
+                    turnoRequest.getPaciente(),
                     turnoRequest.getFecha())));
         } catch (OdontologoNotFound | PacienteNotFound e) {
             return ResponseEntity.badRequest().body(e.getMessage());

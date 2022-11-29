@@ -16,17 +16,21 @@ public class Turno {
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id", nullable = false)
     private int id;
-    private int matricula_odontologo;
-    private int id_paciente;
+
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name = "matricula_odontologo" , referencedColumnName ="matricula")
+    private Odontologo odontologo;
+
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name = "id_paciente" , referencedColumnName ="id")
+    private Paciente paciente;
+
+//    private int matricula_odontologo;
+//    private int id_paciente;
+
     private Date fecha;
 
-//    @OneToOne(cascade = CascadeType.ALL)
-//    @JoinColumn(name = "matricula_odontologo" , referencedColumnName ="matricula")
-//    private Odontologo odontologo;
-//
-//    @OneToOne(cascade = CascadeType.ALL)
-//    @JoinColumn(name = "id_paciente" , referencedColumnName ="id")
-//    private Paciente paciente;
+
 
 
 }

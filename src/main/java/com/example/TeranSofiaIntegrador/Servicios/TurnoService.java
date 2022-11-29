@@ -1,5 +1,7 @@
 package com.example.TeranSofiaIntegrador.Servicios;
 
+import com.example.TeranSofiaIntegrador.Entidades.Odontologo;
+import com.example.TeranSofiaIntegrador.Entidades.Paciente;
 import com.example.TeranSofiaIntegrador.Entidades.Turno;
 import com.example.TeranSofiaIntegrador.Exceptions.OdontologoNotFound;
 import com.example.TeranSofiaIntegrador.Exceptions.PacienteNotFound;
@@ -9,7 +11,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.stereotype.Service;
 
-import java.util.Date;
+import java.sql.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -22,13 +24,12 @@ public class TurnoService {
     private final PacienteService pacienteService;
     private final OdontologoService odontologoService;
 
-    public Turno agregar(int id, int matricula, int pacienteId, Date fecha) throws OdontologoNotFound, PacienteNotFound {
-        var odontologo = odontologoService.getById(matricula).orElseThrow(OdontologoNotFound::new);
-        var paciente = pacienteService.getById(pacienteId).orElseThrow(PacienteNotFound::new);
-        var turno = new Turno(id, matricula, pacienteId, (java.sql.Date) fecha);
-        repository.save(turno);
+    public Turno agregar(int id, Odontologo odontologo, Paciente paciente, Date fecha) throws OdontologoNotFound, PacienteNotFound {
+        var odontologo1 = odontologoService.getById(odontologo.getMatricula()).orElseThrow(OdontologoNotFound::new);
+        var paciente1 = pacienteService.getById(paciente.getId()).orElseThrow(PacienteNotFound::new);
+        var turno = new Turno(id, odontologo1, paciente1, fecha);
+        return repository.save(turno);
 
-        return turno;
     }
 
     public List<Turno> listar()  {
