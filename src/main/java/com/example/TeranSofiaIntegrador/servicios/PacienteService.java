@@ -1,8 +1,9 @@
-package com.example.TeranSofiaIntegrador.Servicios;
+package com.example.TeranSofiaIntegrador.servicios;
 
 
-import com.example.TeranSofiaIntegrador.Entidades.Paciente;
-import com.example.TeranSofiaIntegrador.Repositories.PacienteRepository;
+import com.example.TeranSofiaIntegrador.entidades.Paciente;
+import com.example.TeranSofiaIntegrador.exceptions.ResourceNotFoundException;
+import com.example.TeranSofiaIntegrador.repositories.PacienteRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -15,7 +16,7 @@ public class PacienteService {
 
     private final PacienteRepository repository;
 
-    public void agregar(Paciente paciente){
+    public void agregar(Paciente paciente) throws ResourceNotFoundException {
         repository.save(paciente);
     }
 
@@ -27,7 +28,8 @@ public class PacienteService {
         repository.save(paciente);
     }
 
-    public void eliminar(int id)  {
+    public void eliminar(int id) throws ResourceNotFoundException {
+        repository.findById(id).orElseThrow(()-> new ResourceNotFoundException("El paciente con id: " + id +" no existe en la base de datos"));
         repository.deleteById(id);
     }
     public Optional<Paciente> getById (int id){

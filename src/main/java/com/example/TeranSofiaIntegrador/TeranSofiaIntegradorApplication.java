@@ -17,8 +17,6 @@ public class TeranSofiaIntegradorApplication {
 		SpringApplication.run(TeranSofiaIntegradorApplication.class, args);
 		startLogger();
 
-
-
 	}
 
 	private static void startLogger() throws IOException {

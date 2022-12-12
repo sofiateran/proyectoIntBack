@@ -1,6 +1,6 @@
-package com.example.TeranSofiaIntegrador.Entidades;
+package com.example.TeranSofiaIntegrador.entidades;
 
-import lombok.AllArgsConstructor;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -16,6 +16,7 @@ public class Odontologo {
     private String nombre,apellido;
 
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinColumn(name = "id_turno", referencedColumnName ="id")
+    @JoinColumn(name = "id_turno")
+    @JsonIgnore
     private Set<Turno> turno;
 }

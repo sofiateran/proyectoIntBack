@@ -1,7 +1,8 @@
-package com.example.TeranSofiaIntegrador.Controller;
+package com.example.TeranSofiaIntegrador.controller;
 
-import com.example.TeranSofiaIntegrador.Entidades.Odontologo;
-import com.example.TeranSofiaIntegrador.Servicios.OdontologoService;
+import com.example.TeranSofiaIntegrador.entidades.Odontologo;
+import com.example.TeranSofiaIntegrador.exceptions.ResourceNotFoundException;
+import com.example.TeranSofiaIntegrador.servicios.OdontologoService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -11,7 +12,6 @@ import java.util.Optional;
 
 @RestController
 @AllArgsConstructor
-@CrossOrigin
 public class OdontologoController {
     private final OdontologoService service;
 
@@ -21,7 +21,7 @@ public class OdontologoController {
     }
 
     @PostMapping("/nuevosOdontologos")
-    public ResponseEntity<String> agregar(@RequestBody Odontologo odontologo) {
+    public ResponseEntity<String> agregar(@RequestBody Odontologo odontologo) throws ResourceNotFoundException {
         service.agregar(odontologo);
         return ResponseEntity.ok("Se agregó a la base de datos");
     }
@@ -33,7 +33,7 @@ public class OdontologoController {
     }
 
     @DeleteMapping("/eliminarOdontologo")
-    public ResponseEntity<String>  eliminar(@RequestBody int id) {
+    public ResponseEntity<String>  eliminar(@RequestBody int id) throws ResourceNotFoundException {
         service.eliminar(id);
         return ResponseEntity.ok("Se eliminó de la base de datos el odontologo con id: " + id);
     }
@@ -42,4 +42,5 @@ public class OdontologoController {
     public ResponseEntity<Optional<Odontologo>> getByMatricula(@PathVariable int matricula) {
         return ResponseEntity.ok(service.getById(matricula));
     }
+
 }

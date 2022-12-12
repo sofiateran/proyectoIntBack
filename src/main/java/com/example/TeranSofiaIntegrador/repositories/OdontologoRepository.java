@@ -1,10 +1,9 @@
-package com.example.TeranSofiaIntegrador.Repositories;
+package com.example.TeranSofiaIntegrador.repositories;
 
-import com.example.TeranSofiaIntegrador.Entidades.Odontologo;
+import com.example.TeranSofiaIntegrador.entidades.Odontologo;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import java.util.jar.JarEntry;
 @Repository
 public interface OdontologoRepository extends JpaRepository<Odontologo,Integer> {
 }

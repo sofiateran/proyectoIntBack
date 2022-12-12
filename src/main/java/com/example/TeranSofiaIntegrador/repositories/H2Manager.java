@@ -1,4 +1,4 @@
-package com.example.TeranSofiaIntegrador.Repositories;
+package com.example.TeranSofiaIntegrador.repositories;
 
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
