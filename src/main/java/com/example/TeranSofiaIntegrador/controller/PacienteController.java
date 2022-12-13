@@ -9,14 +9,14 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Optional;
-
+@RequestMapping("/pacientes")
 @RestController
 @AllArgsConstructor
 
 public class PacienteController {
     private final PacienteService pacienteService;
 
-    @GetMapping("/pacientes")
+    @GetMapping("/")
     public ResponseEntity<List<Paciente>> listar() {
         return ResponseEntity.ok(pacienteService.listar());
     }
@@ -39,7 +39,7 @@ public class PacienteController {
         return ResponseEntity.ok("Se eliminó de la base de datos el paciente con id: " + id);
     }
 
-    @GetMapping("/pacientes/{id}")
+    @GetMapping("/{id}")
     public ResponseEntity<Optional<Paciente>> getById(@PathVariable int id) {
         return ResponseEntity.ok(pacienteService.getById(id));
     }
